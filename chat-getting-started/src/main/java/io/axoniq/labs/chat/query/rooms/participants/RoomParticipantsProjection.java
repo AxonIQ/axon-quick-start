@@ -1,5 +1,8 @@
 package io.axoniq.labs.chat.query.rooms.participants;
 
+import io.axoniq.labs.chat.coreapi.ParticipantJoinedRoomEvent;
+import io.axoniq.labs.chat.coreapi.ParticipantLeftRoomEvent;
+import org.axonframework.eventhandling.EventHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,5 +29,19 @@ public class RoomParticipantsProjection {
                          .map(RoomParticipant::getParticipant).sorted().collect(toList());
     }
 
-    // TODO: Create some event handlers that update this model when necessary
+    @EventHandler
+    public void on(ParticipantJoinedRoomEvent participantJoinedRoomEvent) {
+        repository.save(new RoomParticipant(
+                participantJoinedRoomEvent.getRoomId(),
+                participantJoinedRoomEvent.getParticipant()
+        ));
+    }
+
+    @EventHandler
+    public void on(ParticipantLeftRoomEvent participantLeftRoomEvent) {
+        repository.deleteByParticipantAndRoomId(
+                participantLeftRoomEvent.getParticipant(),
+                participantLeftRoomEvent.getRoomId()
+        );
+    }
 }
