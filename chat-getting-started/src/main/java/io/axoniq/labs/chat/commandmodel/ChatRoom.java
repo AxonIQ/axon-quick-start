@@ -24,11 +24,6 @@ public class ChatRoom {
         AggregateLifecycle.apply(new RoomCreatedEvent(createRoomCommand.getRoomId(), createRoomCommand.getName()));
     }
 
-    @EventSourcingHandler
-    public void on(RoomCreatedEvent roomCreatedEvent) {
-        roomId = roomCreatedEvent.getRoomId();
-    }
-
     @CommandHandler
     public void handle(JoinRoomCommand joinRoomCommand) {
         if (!participants.contains(joinRoomCommand.getParticipant())) {
@@ -37,11 +32,6 @@ public class ChatRoom {
                     joinRoomCommand.getRoomId()
             ));
         }
-    }
-
-    @EventSourcingHandler
-    public void on(ParticipantJoinedRoomEvent participantJoinedRoomEvent) {
-        participants.add(participantJoinedRoomEvent.getParticipant());
     }
 
     @CommandHandler
@@ -54,11 +44,6 @@ public class ChatRoom {
         }
     }
 
-    @EventSourcingHandler
-    public void on(ParticipantLeftRoomEvent participantLeftRoomEvent) {
-        participants.remove(participantLeftRoomEvent.getParticipant());
-    }
-
     @CommandHandler
     public void handle(PostMessageCommand postMessageCommand) {
         if (!participants.contains(postMessageCommand.getParticipant())) {
@@ -69,5 +54,20 @@ public class ChatRoom {
                 postMessageCommand.getRoomId(),
                 postMessageCommand.getMessage()
         ));
+    }
+
+    @EventSourcingHandler
+    protected void on(RoomCreatedEvent roomCreatedEvent) {
+        roomId = roomCreatedEvent.getRoomId();
+    }
+
+    @EventSourcingHandler
+    protected void on(ParticipantJoinedRoomEvent participantJoinedRoomEvent) {
+        participants.add(participantJoinedRoomEvent.getParticipant());
+    }
+
+    @EventSourcingHandler
+    protected void on(ParticipantLeftRoomEvent participantLeftRoomEvent) {
+        participants.remove(participantLeftRoomEvent.getParticipant());
     }
 }
