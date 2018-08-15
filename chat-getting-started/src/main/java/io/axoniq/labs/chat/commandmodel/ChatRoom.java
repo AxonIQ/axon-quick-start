@@ -10,6 +10,8 @@ import org.axonframework.spring.stereotype.Aggregate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
+
 @Aggregate
 public class ChatRoom {
     @AggregateIdentifier
@@ -21,13 +23,13 @@ public class ChatRoom {
 
     @CommandHandler
     public ChatRoom(CreateRoomCommand createRoomCommand) {
-        AggregateLifecycle.apply(new RoomCreatedEvent(createRoomCommand.getRoomId(), createRoomCommand.getName()));
+        apply(new RoomCreatedEvent(createRoomCommand.getRoomId(), createRoomCommand.getName()));
     }
 
     @CommandHandler
     public void handle(JoinRoomCommand joinRoomCommand) {
         if (!participants.contains(joinRoomCommand.getParticipant())) {
-            AggregateLifecycle.apply(new ParticipantJoinedRoomEvent(
+            apply(new ParticipantJoinedRoomEvent(
                     joinRoomCommand.getParticipant(),
                     joinRoomCommand.getRoomId()
             ));
@@ -37,7 +39,7 @@ public class ChatRoom {
     @CommandHandler
     public void handle(LeaveRoomCommand leaveRoomCommand) {
         if (participants.contains(leaveRoomCommand.getParticipant())) {
-            AggregateLifecycle.apply(new ParticipantLeftRoomEvent(
+            apply(new ParticipantLeftRoomEvent(
                     leaveRoomCommand.getParticipant(),
                     leaveRoomCommand.getRoomId()
             ));
@@ -49,7 +51,7 @@ public class ChatRoom {
         if (!participants.contains(postMessageCommand.getParticipant())) {
             throw new IllegalStateException("Participant may only post messages to rooms he/she has joined.");
         }
-        AggregateLifecycle.apply(new MessagePostedEvent(
+        apply(new MessagePostedEvent(
                 postMessageCommand.getParticipant(),
                 postMessageCommand.getRoomId(),
                 postMessageCommand.getMessage()
