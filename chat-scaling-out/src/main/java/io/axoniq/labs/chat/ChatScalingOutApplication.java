@@ -35,10 +35,10 @@ public class ChatScalingOutApplication {
         @Bean
         public Docket api() {
             return new Docket(DocumentationType.SWAGGER_2)
-              .select()
-              .apis(RequestHandlerSelectors.any())
-              .paths(PathSelectors.any())
-              .build();
+                    .select()
+                    .apis(RequestHandlerSelectors.any())
+                    .paths(PathSelectors.any())
+                    .build();
         }
     }
 
@@ -80,8 +80,8 @@ public class ChatScalingOutApplication {
         @Autowired
         public SpringAMQPMessageSource participantEvents(Serializer serializer) {
             return new SpringAMQPMessageSource(serializer) {
-                @RabbitListener(queues = "participant-events")
                 @Override
+                @RabbitListener(queues = "participant-events")
                 public void onMessage(Message message, Channel channel) {
                     super.onMessage(message, channel);
                 }
