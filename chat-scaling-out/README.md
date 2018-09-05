@@ -150,7 +150,7 @@ instead of the Event Bus or Event Store.
 
 First, we are going to enable AMQP support:
 1. Add a dependency to `org.springframework.boot:spring-boot-starter-amqp`. This will enable AMQP in Spring Boot.
-2. Add a dependency to `org.axonframework:axon-amqp:3.0.6`, This will enable Axon AMQP support.
+2. Add a dependency to `org.axonframework:axon-amqp`, using the same version number as the other Axon modules. This will enable Axon AMQP support.
 
 Now that AMQP is available, we need to define an Exchange, Queue and Binding for our application to use:
 1. Define a Fanout Exchange called 'events'
