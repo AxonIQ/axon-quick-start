@@ -6,9 +6,9 @@ So, you have selected the advanced Lab. Good job!
 Application overview
 --------------------
 
-The main application is called `ChatScalingOutApplication`. It's a Spring Boot application with 
-the following main dependencies:
- - Axon (spring boot starter)
+The main application is called `ChatScalingOutApplication`. It's a Spring Boot application with the following main 
+dependencies:
+ - Axon (Spring Boot starter)
  - Spring Data JPA
  - Freemarker
  - Web 
@@ -17,7 +17,7 @@ the following main dependencies:
  - Axon Test
 
 Because we will be having multiple instances cooperating on the same database, we can't use an
-embedded H2 database anymore. You can run the `Servers` class to start an H2 database with a
+embedded H2 Database anymore. You can run the `Servers` class to start an H2 database with a
 TCP endpoint. The application is configured to connect to this database. 
 
 There are a few test cases. One will check if the application can start, while the others 
@@ -28,9 +28,9 @@ validate the Aggregate's behavior. They should all pass.
 The application's logic is divided among a number of packages.
 
 - `io.axoniq.labs.chat`  
-  the main package. Contains the Application class with the configuration.
+  The main package. Contains the Application class with the configuration.
 - `io.axoniq.labs.chat.commandmodel`  
-  contains the Command Model. In our case, just the `Room` Aggregate that has been provided to make the project 
+  Contains the Command Model. In our case, just the `Room` Aggregate that has been provided to make the project 
   compile.
 - `io.axoniq.labs.chat.coreapi`  
   The so called *core api*. This is where we put the Commands, Events and Queries. 
@@ -44,20 +44,20 @@ The application's logic is divided among a number of packages.
 - `io.axoniq.labs.chat.query.rooms.participants`  
   Contains the Projection to serve the list of participants in a given Chat Room. 
 - `io.axoniq.labs.chat.query.rooms.summary`  
-  Contains the Projection to serve a list of available chat rooms and the number of participants
+  Contains the Projection to serve a list of available chat rooms and the number of participants.
 - `io.axoniq.labs.chat.restapi`  
   This is the REST Command and Query API to change and read the application's state. 
   API calls here are translated into Commands and Queries for the application to process.
 
 ### Swagger UI ###
-The application has Swagger enabled. You can use Swagger to send requests.
+The application has 'Swagger' enabled. You can use Swagger to send requests.
 
-Visit: http://localhost:8080/swagger-ui.html
+Visit: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
 ### H2 Console ###
 The application has the H2 Console configured, so you can peek into the database's contents.
 
-Visit: http://localhost:8080/h2-console  
+Visit: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)  
 Enter JDBC URL: jdbc:h2:tcp://localhost:9092/mem:testdb  
 Leave other values to defaults and click 'connect'
 
@@ -73,8 +73,8 @@ be distributed as well. We are going to use AxonServer to do this.
 Preparation
 -----------
 
-Axon Framework works best with Axon Server, and in this sample project we assume that you do. 
-Axon Server needs to be downloaded separately.
+Axon Framework works best with AxonServer, and in this sample project we assume that you are using it. 
+AxonServer needs to be downloaded separately.
 
 Exercises
 ---------
@@ -84,12 +84,12 @@ Exercises
 Connect a second instance of application to AxonServer. You just need to startup another instance; if you run them locally, 
 remember to change the server port in `application.properties`, setting the `server.port=9090`.
 
-Now you can invoke rest APIs to both instances indifferently. 
-Try for example to subscribe for room messages to an instance and then to post messages from the other one.
+Now you can invoke the rest APIs on both instances interchangeably. 
+Try for example to subscribe for room messages in one instance, and then to post messages from the other.
 
 ### Parallel Processing of Events ###
 
-To configure a tracking processor for parallel processing:
+To configure a Tracking Processor for parallel processing:
 
 1. We first want to override the Processing Group's name. By default, this name of a processing group (and the processor 
 that will process events on behalf of it) is the package name of the event handlers that are assigned to it.  
@@ -97,18 +97,18 @@ The easiest way to override is to put a `@ProcessingGroup` annotation on the `Ch
 value `messages`.
 2. In `application.properties`, configure the `messages` processor initial number of segments to define the maximum number of overall threads:  
 `axon.eventhandling.processors.messages.initialSegmentCount=4`. (Note that the `messages` part is the name of the processor) 
-3. In `application.properties`, set also maximum number threads to start on this node:  
+3. In `application.properties`, also set the maximum number threads to start on this node:  
 `axon.eventhandling.processors.messages.threadCount=2`. 
 4. In `application.properties`, set the processor mode to tracking:  
-`axon.eventhandling.processors.messages.mode=tracking`. (Note that this is still required in Axon 4 milestone 2; 
-however, the final release of Axon 4 will have tracking event processors by default, so you would not need this configuration)
+`axon.eventhandling.processors.messages.mode=tracking`. ]
 
-Restart your applications, and processing is now parallel. Check out the "TOKEN_ENTRY" table in the H2 Console to
-see the token being updated.
+Restart your applications. Event processing is now occurring in parallel. Check out the "TOKEN_ENTRY" table in the H2 
+Console to see the token being updated.
 
 Note:
 Remember to restart the `Servers` process to reset the database. 
-The initialSegmentCount property is used only if the segments for that tracking processors are not yet defined in TOKEN_ENTRY table.
+The `initialSegmentCount` property is used only if the segments for that Tracking Processor are not yet defined in 
+"TOKEN_ENTRY" table.
 
 ### Off the beaten track (Bonus Exercises) ###
 

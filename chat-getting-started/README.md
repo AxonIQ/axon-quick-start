@@ -8,12 +8,12 @@ Application overview
 
 The main application is called `ChatGettingStartedApplication`. It's a Spring Boot application with 
 the following main dependencies:
- - Axon (spring boot starter)
+ - Axon (Spring Boot starter)
  - Spring Data JPA
  - Freemarker
  - Web 
  - Reactor
- - H2 (Embedded database)
+ - H2 (Embedded Database)
  - Spring Boot Test
  - Axon Test
 
@@ -25,9 +25,9 @@ validate the Aggregate's behavior. They should all fail, as most of the stuff ne
 The application's logic is divided among a number of packages.
 
 - `io.axoniq.labs.chat`  
-  the main package. Contains the Application class with the configuration.
+  The main package. Contains the Application class with the configuration.
 - `io.axoniq.labs.chat.commandmodel`  
-  contains the Command Model. In our case, just the `Room` Aggregate that has been provided to make the project 
+  Contains the Command Model. In our case, just the `Room` Aggregate that has been provided to make the project 
   compile.
 - `io.axoniq.labs.chat.coreapi`  
   The so called *core api*. This is where we put the Commands, Events and Queries. 
@@ -41,29 +41,29 @@ The application's logic is divided among a number of packages.
 - `io.axoniq.labs.chat.query.rooms.participants`  
   Contains the Projection to serve the list of participants in a given Chat Room. 
 - `io.axoniq.labs.chat.query.rooms.summary`  
-  Contains the Projection to serve a list of available chat rooms and the number of participants
+  Contains the Projection to serve a list of available chat rooms and the number of participants.
 - `io.axoniq.labs.chat.restapi`  
   This is the REST Command and Query API to change and read the application's state. 
   API calls here are translated into Commands and Queries for the application to process.
 
 ### Swagger UI ###
-The application has Swagger enabled. You can use Swagger to send requests.
+The application has 'Swagger' enabled. You can use Swagger to send requests.
 
-Visit: http://localhost:8080/swagger-ui.html
+Visit: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
 ### H2 Console ###
-The application has the H2 Console configured, so you can peek into the database's contents.
+The application has the 'H2 Console' configured, so you can peek into the database's contents.
 
-Visit: http://localhost:8080/h2-console  
+Visit: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)  
 Enter JDBC URL: jdbc:h2:mem:testdb  
-Leave other values to defaults and click 'connect'
+Leave other values to defaults and click 'connect'.
 
 
 Preparation
 -----------
 
-Axon Framework works best with Axon Server, and in this sample project we assume that you do. 
-Axon Server needs to be downloaded separately.
+Axon Framework works best with AxonServer, and in this sample project we assume that you are using it. 
+AxonServer needs to be downloaded separately.
 
 Our goal
 --------
@@ -149,12 +149,14 @@ We need to implement 3 projections for this application:
   3. The last projection, the `RoomSummaryProjection`, gives us a summary of all the available chat rooms. The summary 
      contains the name of the room, and the number of participants in it. It's up to you to implement it.
      
-  4. Implement the `@QueryHandlers` needed to extract data from all the projections. You will need to implement a    
-     `@QueryHandler` for each Query defined in core api, so implement `AllRoomsQuery` handler in `RoomSummaryProjection`,  
-     `RoomParticipantsQuery` in `RoomParticipantProjection`, and `RoomMessagesQuery` in `ChatMessageProjection`.
+  4. Implement the `@QueryHandler`s needed to extract data from all the projections. You will need to implement a    
+     `@QueryHandler` for each Query defined in *core api*. So, implement an `AllRoomsQuery` handler in 
+     `RoomSummaryProjection`, a `RoomParticipantsQuery` handler in `RoomParticipantProjection`, and a 
+     `RoomMessagesQuery` handler in `ChatMessageProjection`.
  
   5. The projection `ChatMessageProjection` gives us a list of all the messages in a chat rooms. In order to support
-     a subscription query we need also to use `QueryUpdateEmitter` to send an update for each new chat message in the `EventHandler` method.
+     a 'Subscription Query' we will need to use the `QueryUpdateEmitter`  in the `@EventHandler` to send an update for 
+     each new chat message.
 
 
 ### Connect the REST API to the Query Bus ###
@@ -162,13 +164,14 @@ We need to implement 3 projections for this application:
 We've got a component that can handle queries now. Now, it's time to allow external components to trigger these 
 queries. The `QueryController` class defines some API endpoints that should trigger queries to be sent.
 
-We can use either the Query Bus or the QueryGateway to send queries. The latter has a friendlier API, so 
+We can use either the `QueryBus` or the `QueryGateway` to send queries. The latter has a friendlier API, so 
 we've decided to use that one.
 
- 1. Implement the TODOs in the `QueryController` class to forward Queries to the Query Bus. Note that the API 
-    Endpoint methods declare a return type of `Future<...>`. The `QueryGateway.query()` method also returns a Future. 
- 2. Note that `subscribeRoomMessages` endpoint declare a return type of `Flux<...>`. In this service you can send a 
-    Subscription Query instead of a query in order to be notified about new messages sent into the room. 
+ 1. Implement the TODOs in the `QueryController` class to forward Queries to the `QueryBus`. Note that the API 
+    Endpoint methods declare a return type of `Future<...>`. The `QueryGateway.query()` method also returns a `Future`. 
+ 2. Note that `subscribeRoomMessages()` endpoint declares a return type of `Flux<...>`. In this service you can send a 
+    Subscription Query, by using the `QueryGateway#subscriptionQuery(...)` method, instead of a regular query in order 
+    to be notified about new messages sent into the room. 
 
 When you think you're done, give the application a spin and see what happens...
 
