@@ -12,6 +12,7 @@ the following main dependencies:
  - Spring Data JPA
  - Freemarker
  - Web 
+ - Reactor
  - H2 (Embedded database)
  - Spring Boot Test
  - Axon Test
@@ -26,24 +27,24 @@ The application's logic is divided among a number of packages.
 - `io.axoniq.labs.chat`  
   the main package. Contains the Application class with the configuration.
 - `io.axoniq.labs.chat.commandmodel`  
-  contains the Command Model. In our case, just the `Room` Aggregatet that has been provided to make the project 
+  contains the Command Model. In our case, just the `Room` Aggregate that has been provided to make the project 
   compile.
 - `io.axoniq.labs.chat.coreapi`  
-  The so called *core api*. This is where we put the Commands and Events. 
-  Since both commands and events are immutable, we have used Kotlin to define them. Kotlin allows use to
-  concisely define each event and command on a single line.  
-  To make sure you don't waste your precious time, we've implemented these Commands and Events for you.
+  The so called *core api*. This is where we put the Commands, Events and Queries. 
+  Since commands, events and queries are immutable, we have used Kotlin to define them. Kotlin allows you to
+  concisely define each event, command and query on a single line.  
+  To make sure you don't waste your precious time, we've implemented these Commands, Events and Queries for you.
 - `io.axoniq.labs.chat.query.rooms.messages`  
   Contains the Projections (also called View Model or Query Model) for the Messages that have been broadcast in a 
-  specific room. This package contains both the Event Handlers for updating the Projections, as well as the Rest 
-  Controllers to expose the data through a Rest API.
+  specific room. This package contains both the Event Handlers for updating the Projections, 
+  as well as the Query Handlers to read these data.
 - `io.axoniq.labs.chat.query.rooms.participants`  
   Contains the Projection to serve the list of participants in a given Chat Room. 
 - `io.axoniq.labs.chat.query.rooms.summary`  
   Contains the Projection to serve a list of available chat rooms and the number of participants
-- `io.axoniq.labs.chat.roomapi`  
-  This is the Command API to change the application's state. API calls here are translated into Commands for the
-  application to process
+- `io.axoniq.labs.chat.restapi`  
+  This is the REST Command and Query API to change and read the application's state. 
+  API calls here are translated into Commands and Queries for the application to process.
 
 ### Swagger UI ###
 The application has Swagger enabled. You can use Swagger to send requests.
@@ -56,6 +57,13 @@ The application has the H2 Console configured, so you can peek into the database
 Visit: http://localhost:8080/h2-console  
 Enter JDBC URL: jdbc:h2:mem:testdb  
 Leave other values to defaults and click 'connect'
+
+
+Preparation
+-----------
+
+Axon Framework works best with Axon Server, and in this sample project we assume that you do. 
+Axon Server needs to be downloaded separately.
 
 Our goal
 --------
@@ -117,8 +125,8 @@ we've decided to use that one.
     Note that this API Endpoint returns a `Future<String>` (as opposed to `Future<Void>`). Axon returns the identifier of an Aggregate as a 
     result of a Command creating a new Aggregate instance. 
    
-That's it! Once you're done, you should be able to start the application and send messages. Note that the queries don't
-provide any data, yet. That's fixed in the next step.
+That's it! Once you're done, you should be able to start the application and send messages. Note that the queries are
+not implemented yet. That's fixed in the next step.
 
 ### Implement the Projections ###
 
@@ -140,14 +148,29 @@ We need to implement 3 projections for this application:
      
   3. The last projection, the `RoomSummaryProjection`, gives us a summary of all the available chat rooms. The summary 
      contains the name of the room, and the number of participants in it. It's up to you to implement it.
+     
+  4. Implement the `@QueryHandlers` needed to extract data from all the projections. You will need to implement a    
+     `@QueryHandler` for each Query defined in core api, so implement `AllRoomsQuery` handler in `RoomSummaryProjection`,  
+     `RoomParticipantsQuery` in `RoomParticipantProjection`, and `RoomMessagesQuery` in `ChatMessageProjection`.
+ 
+  5. The projection `ChatMessageProjection` gives us a list of all the messages in a chat rooms. In order to support
+     a subscription query we need also to use `QueryUpdateEmitter` to send an update for each new chat message in the `EventHandler` method.
+
+
+### Connect the REST API to the Query Bus ###
+
+We've got a component that can handle queries now. Now, it's time to allow external components to trigger these 
+queries. The `QueryController` class defines some API endpoints that should trigger queries to be sent.
+
+We can use either the Query Bus or the QueryGateway to send queries. The latter has a friendlier API, so 
+we've decided to use that one.
+
+ 1. Implement the TODOs in the `QueryController` class to forward Queries to the Query Bus. Note that the API 
+    Endpoint methods declare a return type of `Future<...>`. The `QueryGateway.query()` method also returns a Future. 
+ 2. Note that `subscribeRoomMessages` endpoint declare a return type of `Flux<...>`. In this service you can send a 
+    Subscription Query instead of a query in order to be notified about new messages sent into the room. 
 
 When you think you're done, give the application a spin and see what happens...
 
-### Off the beaten track (bonus exercise) ###
-
-If you're done, but don't feel like moving to the [scaling out exercise](../chat-scaling-out/README.md), here's some 
-additional things to do or think about:
-
-  1. Configure an Asynchronous Command Bus
 
 # Done! Hurrah! #

@@ -1,26 +1,26 @@
 package io.axoniq.labs.chat.query.rooms.messages;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.web.bind.annotation.*;
+import org.axonframework.queryhandling.QueryUpdateEmitter;
+import org.springframework.stereotype.Component;
 
-@RestController
-@RequestMapping("/rooms/{roomId}/messages")
+
+@Component
 public class ChatMessageProjection {
 
     private final ChatMessageRepository repository;
 
-    public ChatMessageProjection(ChatMessageRepository repository) {
-        this.repository = repository;
-    }
+    private final QueryUpdateEmitter updateEmitter;
 
-    @GetMapping
-    public Page<ChatMessage> messagesInRoom(@PathVariable String roomId,
-                                            @RequestParam(defaultValue = "0") int pageId,
-                                            @RequestParam(defaultValue = "10") int pageSize) {
-        return repository.findAllByRoomIdOrderByTimestampDesc(roomId, new PageRequest(pageId, pageSize));
+    public ChatMessageProjection(ChatMessageRepository repository,
+                                 QueryUpdateEmitter updateEmitter) {
+        this.repository = repository;
+        this.updateEmitter = updateEmitter;
     }
 
     // TODO: Create some event handlers that update this model when necessary
+
+    // TODO: Create the query handler to read data from this model
+
+    // TODO: Emit updates when new message arrive to notify subscription query by modifying the event handler
 
 }

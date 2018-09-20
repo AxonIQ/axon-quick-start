@@ -1,6 +1,8 @@
 package io.axoniq.labs.chat;
 
 import com.google.common.base.Predicates;
+import org.axonframework.config.EventProcessingConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +20,6 @@ public class ChatGettingStartedApplication {
         SpringApplication.run(ChatGettingStartedApplication.class, args);
     }
 
-
     @Configuration
     @EnableSwagger2
     public static class SwaggerConfig {
@@ -30,5 +31,14 @@ public class ChatGettingStartedApplication {
                     .paths(PathSelectors.any())
                     .build();
         }
+    }
+
+    /**
+     * PLEASE NOTE: This is still required in Axon 4 milestone 2. However, the final release of Axon 4 will
+     * have tracking event processors by default, so you would not need this configuration.
+     */
+    @Autowired
+    public void configure(EventProcessingConfiguration config) {
+        config.usingTrackingProcessors();
     }
 }

@@ -1,0 +1,65 @@
+POST http://localhost:8080/rooms
+Content-Type: application/json
+
+{
+  "roomId": "56f85087-64fa-456f-bc2c-d009e6462f35",
+  "name": "room1"
+}
+
+###
+
+GET http://localhost:8080/rooms
+
+###
+
+POST http://localhost:8080/rooms/56f85087-64fa-456f-bc2c-d009e6462f35/participants
+Content-Type: application/json
+
+{
+  "name": "Sara"
+}
+
+###
+
+GET http://localhost:8080/rooms/56f85087-64fa-456f-bc2c-d009e6462f35/participants
+
+###
+
+POST http://localhost:8080/rooms/56f85087-64fa-456f-bc2c-d009e6462f35/messages
+Content-Type: application/json
+
+{
+	"name": "Sara",
+	"message": "Ciao Marc"
+}
+
+###
+
+GET http://localhost:8080/rooms/56f85087-64fa-456f-bc2c-d009e6462f35/messages
+
+###
+
+
+POST http://localhost:9090/rooms/56f85087-64fa-456f-bc2c-d009e6462f35/participants
+Content-Type: application/json
+
+{
+  "name": "Marc"
+}
+
+###
+
+
+POST http://localhost:9090/rooms/56f85087-64fa-456f-bc2c-d009e6462f35/messages
+Content-Type: application/json
+
+{
+  "name": "Marc",
+  "message": "Good afternoon Sara"
+}
+
+###
+
+GET http://localhost:9090/rooms/56f85087-64fa-456f-bc2c-d009e6462f35/messages
+
+###
