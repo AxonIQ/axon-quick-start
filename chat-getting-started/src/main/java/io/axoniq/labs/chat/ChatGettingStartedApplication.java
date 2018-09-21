@@ -33,10 +33,6 @@ public class ChatGettingStartedApplication {
         }
     }
 
-    /**
-     * PLEASE NOTE: This is still required in Axon 4 milestone 2. However, the final release of Axon 4 will
-     * have tracking event processors by default, so you would not need this configuration.
-     */
     @Autowired
     public void configure(EventProcessingConfiguration config) {
         config.usingTrackingProcessors();
