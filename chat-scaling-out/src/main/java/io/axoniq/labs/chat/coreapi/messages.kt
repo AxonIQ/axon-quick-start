@@ -12,3 +12,6 @@ data class ParticipantJoinedRoomEvent(val participant: String, val roomId: Strin
 data class MessagePostedEvent(val participant: String, val roomId: String, val message: String)
 data class ParticipantLeftRoomEvent(val participant: String, val roomId: String)
 
+class AllRoomsQuery
+data class RoomParticipantsQuery(val roomId: String)
+data class RoomMessagesQuery(val roomId:String)

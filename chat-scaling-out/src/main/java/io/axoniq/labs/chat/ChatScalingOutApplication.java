@@ -1,7 +1,9 @@
 package io.axoniq.labs.chat;
 
+import org.axonframework.config.EventProcessingConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -34,5 +36,10 @@ public class ChatScalingOutApplication {
               .paths(PathSelectors.any())
               .build();
         }
+    }
+
+    @Autowired
+    public void configure(EventProcessingConfiguration config) {
+        config.usingTrackingProcessors();
     }
 }
