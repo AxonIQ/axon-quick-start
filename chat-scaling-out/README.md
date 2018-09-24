@@ -54,6 +54,10 @@ The application has 'Swagger' enabled. You can use Swagger to send requests.
 
 Visit: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
+<b>Note</b>: The Swagger UI does not support the 'Subscription Query' further on in the assignment, as Swagger does not support
+streaming results. Issuing a regular `curl` operation, or something along those lines, is recommended to check the 
+Subscription Query.
+
 ### H2 Console ###
 The application has the H2 Console configured, so you can peek into the database's contents.
 
