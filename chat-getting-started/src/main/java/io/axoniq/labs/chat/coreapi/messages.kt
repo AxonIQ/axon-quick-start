@@ -1,6 +1,6 @@
 package io.axoniq.labs.chat.coreapi
 
-import org.axonframework.commandhandling.TargetAggregateIdentifier
+import org.axonframework.modelling.command.TargetAggregateIdentifier
 
 data class CreateRoomCommand(@TargetAggregateIdentifier val roomId: String, val name: String)
 data class JoinRoomCommand(val participant: String, @TargetAggregateIdentifier val roomId: String)

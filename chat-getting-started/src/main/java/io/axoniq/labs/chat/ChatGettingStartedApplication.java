@@ -1,8 +1,6 @@
 package io.axoniq.labs.chat;
 
 import com.google.common.base.Predicates;
-import org.axonframework.config.EventProcessingConfiguration;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -33,8 +31,4 @@ public class ChatGettingStartedApplication {
         }
     }
 
-    @Autowired
-    public void configure(EventProcessingConfiguration config) {
-        config.usingTrackingProcessors();
-    }
 }
