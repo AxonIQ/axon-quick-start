@@ -1,9 +1,7 @@
 package io.axoniq.labs.chat;
 
-import org.axonframework.config.EventProcessingConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,8 +16,6 @@ import java.sql.SQLException;
 
 @SpringBootApplication
 public class ChatScalingOutApplication {
-
-	private static final Logger logger = LoggerFactory.getLogger(ChatScalingOutApplication.class);
 
 	public static void main(String[] args) throws SQLException {
 		SpringApplication.run(ChatScalingOutApplication.class, args);
@@ -38,8 +34,4 @@ public class ChatScalingOutApplication {
         }
     }
 
-    @Autowired
-    public void configure(EventProcessingConfiguration config) {
-        config.usingTrackingProcessors();
-    }
 }

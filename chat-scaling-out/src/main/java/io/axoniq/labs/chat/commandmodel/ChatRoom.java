@@ -2,15 +2,15 @@ package io.axoniq.labs.chat.commandmodel;
 
 import io.axoniq.labs.chat.coreapi.*;
 import org.axonframework.commandhandling.CommandHandler;
-import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.eventsourcing.EventSourcingHandler;
+import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.util.Assert;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
+import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
 @Aggregate
 public class ChatRoom {
