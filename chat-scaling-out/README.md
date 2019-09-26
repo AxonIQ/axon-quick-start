@@ -78,7 +78,10 @@ Preparation
 -----------
 
 Axon Framework works best with AxonServer, and in this sample project we assume that you are using it. 
-AxonServer needs to be downloaded separately.
+AxonServer needs to be downloaded separately. You can run AxonServer as a docker container by running 
+```shell script
+docker run -d -p 8024:8024 -p 8124:8124 -p 8224:8224 --name axonserver axoniq/axonserver
+```
 
 Exercises
 ---------
