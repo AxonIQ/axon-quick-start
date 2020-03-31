@@ -36,20 +36,20 @@ public class CommandController {
     @PostMapping("/rooms/{roomId}/participants")
     public Future<Void> joinChatRoom(@PathVariable String roomId, @RequestBody @Valid Participant participant) {
         Assert.notNull(participant.getName(), "name is mandatory for a chatroom");
-        return commandGateway.send(new JoinRoomCommand(participant.getName(), roomId));
+        return commandGateway.send(new JoinRoomCommand(roomId, participant.getName()));
     }
 
     @PostMapping("/rooms/{roomId}/messages")
     public Future<Void> postMessage(@PathVariable String roomId, @RequestBody @Valid Message message) {
         Assert.notNull(message.getName(), "'name' missing - please provide a participant name");
         Assert.notNull(message.getMessage(), "'message' missing - please provide a message to post");
-        return commandGateway.send(new PostMessageCommand(message.getName(), roomId, message.getMessage()));
+        return commandGateway.send(new PostMessageCommand(roomId, message.getName(), message.getMessage()));
     }
 
     @DeleteMapping("/rooms/{roomId}/participants")
     public Future<Void> leaveChatRoom(@PathVariable String roomId, @RequestBody @Valid Participant participant) {
         Assert.notNull(participant.getName(), "name is mandatory for a chatroom");
-        return commandGateway.send(new LeaveRoomCommand(participant.getName(), roomId));
+        return commandGateway.send(new LeaveRoomCommand(roomId, participant.getName()));
     }
 
     public static class Message {

@@ -30,23 +30,23 @@ class ChatRoomTest {
     @Test
     void testJoinChatRoom() {
         testFixture.given(new RoomCreatedEvent("roomId", "test-room"))
-                   .when(new JoinRoomCommand("participant", "roomId"))
-                   .expectEvents(new ParticipantJoinedRoomEvent("participant", "roomId"));
+                   .when(new JoinRoomCommand("roomId", "participant"))
+                   .expectEvents(new ParticipantJoinedRoomEvent("roomId", "participant"));
     }
 
     @Test
     void testPostMessage() {
         testFixture.given(new RoomCreatedEvent("roomId", "test-room"),
-                          new ParticipantJoinedRoomEvent("participant", "roomId"))
-                   .when(new PostMessageCommand("participant", "roomId", "Hi there!"))
-                   .expectEvents(new MessagePostedEvent("participant", "roomId", "Hi there!"));
+                          new ParticipantJoinedRoomEvent("roomId", "participant"))
+                   .when(new PostMessageCommand("roomId", "participant", "Hi there!"))
+                   .expectEvents(new MessagePostedEvent("roomId", "participant", "Hi there!"));
     }
 
     @Test
     void testCannotJoinChatRoomTwice() {
         testFixture.given(new RoomCreatedEvent("roomId", "test-room"),
-                          new ParticipantJoinedRoomEvent("participant", "roomId"))
-                   .when(new JoinRoomCommand("participant", "roomId"))
+                          new ParticipantJoinedRoomEvent("roomId", "participant"))
+                   .when(new JoinRoomCommand("roomId", "participant"))
                    .expectSuccessfulHandlerExecution()
                    .expectNoEvents();
     }
@@ -54,9 +54,9 @@ class ChatRoomTest {
     @Test
     void testCannotLeaveChatRoomTwice() {
         testFixture.given(new RoomCreatedEvent("roomId", "test-room"),
-                          new ParticipantJoinedRoomEvent("participant", "roomId"),
-                          new ParticipantLeftRoomEvent("participant", "roomId"))
-                   .when(new LeaveRoomCommand("participant", "roomId"))
+                          new ParticipantJoinedRoomEvent("roomId", "participant"),
+                          new ParticipantLeftRoomEvent("roomId", "participant"))
+                   .when(new LeaveRoomCommand("roomId", "participant"))
                    .expectSuccessfulHandlerExecution()
                    .expectNoEvents();
     }
@@ -64,9 +64,9 @@ class ChatRoomTest {
     @Test
     void testParticipantCannotPostMessagesOnceHeLeftTheRoom() {
         testFixture.given(new RoomCreatedEvent("roomId", "test-room"),
-                          new ParticipantJoinedRoomEvent("participant", "roomId"),
-                          new ParticipantLeftRoomEvent("participant", "roomId"))
-                   .when(new PostMessageCommand("participant", "roomId", "Hi there!"))
+                          new ParticipantJoinedRoomEvent("roomId", "participant"),
+                          new ParticipantLeftRoomEvent("roomId", "participant"))
+                   .when(new PostMessageCommand("roomId", "participant", "Hi there!"))
                    .expectException(IllegalStateException.class)
                    .expectNoEvents();
     }
