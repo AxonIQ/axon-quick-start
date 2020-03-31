@@ -27,7 +27,7 @@ The application's logic is divided among a number of packages.
 - `io.axoniq.labs.chat`  
   The main package. Contains the Application class with the configuration.
 - `io.axoniq.labs.chat.commandmodel`  
-  Contains the Command Model. In our case, just the `Room` Aggregate that has been provided to make the project 
+  Contains the Command Model. In our case, just the `ChatRoom` Aggregate that has been provided to make the project 
   compile.
 - `io.axoniq.labs.chat.coreapi`  
   The so called *core api*. This is where we put the Commands, Events and Queries. 
@@ -37,7 +37,7 @@ The application's logic is divided among a number of packages.
 - `io.axoniq.labs.chat.query.rooms.messages`  
   Contains the Projections (also called View Model or Query Model) for the Messages that have been broadcast in a 
   specific room. This package contains both the Event Handlers for updating the Projections, 
-  as well as the Query Handlers to read these data.
+  as well as the Query Handlers to read the data.
 - `io.axoniq.labs.chat.query.rooms.participants`  
   Contains the Projection to serve the list of participants in a given Chat Room. 
 - `io.axoniq.labs.chat.query.rooms.summary`  
@@ -59,7 +59,7 @@ Subscription Query.
 The application has the 'H2 Console' configured, so you can peek into the database's contents.
 
 Visit: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)  
-Enter JDBC URL: jdbc:h2:mem:testdb  
+Enter JDBC URL: `jdbc:h2:mem:testdb`  
 Leave other values to defaults and click 'connect'.
 
 
@@ -68,6 +68,10 @@ Preparation
 
 Axon Framework works best with AxonServer, and in this sample project we assume that you are using it. 
 AxonServer needs to be downloaded separately.
+You can run AxonServer as a docker container by running:
+```shell script
+docker run -d -p 8024:8024 -p 8124:8124 -p 8224:8224 --name axonserver axoniq/axonserver
+```
 
 Our goal
 --------

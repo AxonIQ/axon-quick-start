@@ -21,6 +21,7 @@ public class ChatGettingStartedApplication {
     @Configuration
     @EnableSwagger2
     public static class SwaggerConfig {
+
         @Bean
         public Docket api() {
             return new Docket(DocumentationType.SWAGGER_2)
@@ -30,5 +31,4 @@ public class ChatGettingStartedApplication {
                     .build();
         }
     }
-
 }

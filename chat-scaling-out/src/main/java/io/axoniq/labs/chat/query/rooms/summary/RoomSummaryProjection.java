@@ -20,7 +20,7 @@ public class RoomSummaryProjection {
     }
 
     @QueryHandler
-    public List<RoomSummary> on(AllRoomsQuery query){
+    public List<RoomSummary> handle(AllRoomsQuery query) {
         return roomSummaryRepository.findAll();
     }
 

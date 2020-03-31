@@ -22,25 +22,25 @@ public class CommandController {
 
     @PostMapping("/rooms")
     public Future<String> createChatRoom(@RequestBody @Valid Room room) {
-        // TODO: Send a command for this API call
+        // TODO: Send a command for this API call.
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @PostMapping("/rooms/{roomId}/participants")
     public Future<Void> joinChatRoom(@PathVariable String roomId, @RequestBody @Valid Participant participant) {
-        // TODO: Send a command for this API call
+        // TODO: Send a command for this API call.
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @PostMapping("/rooms/{roomId}/messages")
     public Future<Void> postMessage(@PathVariable String roomId, @RequestBody @Valid PostMessageRequest message) {
-        // TODO: Send a command for this API call
+        // TODO: Send a command for this API call.
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
     @DeleteMapping("/rooms/{roomId}/participants")
     public Future<Void> leaveChatRoom(@PathVariable String roomId, @RequestBody @Valid Participant participant) {
-        // TODO: Send a command for this API call
+        // TODO: Send a command for this API call.
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
