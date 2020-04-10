@@ -96,10 +96,10 @@ To make these tests pass, you will need to implement the following command handl
    annotate it with `@AggregateIdentifier`. We will also need to set this field to the correct value. As we are using 
    event sourcing, we must do so in an `@EventSourcingHandler`. Create one that reacts to the `RoomCreatedEvent` and
    sets the `roomId` to the correct value.  
-2. The handler for the `JoinRoomCommand` should apply a `RoomJoinedEvent`, but only if the joining participant hasn't 
+2. The handler for the `JoinRoomCommand` should apply a `ParticipantJoinedRoomEvent`, but only if the joining participant hasn't 
    already joined this room. Otherwise, nothing happens. To do this, we will need to maintain some state. We do this in
    `@EventSourcingHandler`, remember? Create the required handlers.
-3. The handler for the `LeaveRoomCommand` should apply a `RoomLeftEvent`, but only if the leaving participant has 
+3. The handler for the `LeaveRoomCommand` should apply a `ParticipantLeftRoomEvent`, but only if the leaving participant has 
    joined the room. Otherwise, again, nothing happens. Don't forget to update state in the right location.
 4. Finally, implement the handler for the `PostMessageCommand`. A participant may only post messages to rooms he/she
    has joined. Otherwise, an exception is thrown.
@@ -146,7 +146,7 @@ We need to implement 3 projections for this application:
      inject the timestamp at which the message was originally created. Use `timestamp.toEpochMilli()` to convert it to
      milliseconds-since-epoch.
      
-  2. Implement the `@EventHandlers` for the `RoomParticipantProjection`. This projection keeps track of all the 
+  2. Implement the `@EventHandler`s for the `RoomParticipantProjection`. This projection keeps track of all the 
      participants in each chatroom. You will need to implement an `@EventHandler` for each of the Events that describe 
      a change in the participants of a room...
      
