@@ -21,7 +21,7 @@ public class RoomParticipantsProjection {
     }
 
     @QueryHandler
-    public List<String> on(RoomParticipantsQuery query) {
+    public List<String> handle(RoomParticipantsQuery query) {
         return repository.findRoomParticipantsByRoomId(query.getRoomId())
                          .stream()
                          .map(RoomParticipant::getParticipant).sorted().collect(toList());

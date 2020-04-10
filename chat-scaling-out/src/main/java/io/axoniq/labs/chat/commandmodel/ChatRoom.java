@@ -30,14 +30,14 @@ public class ChatRoom {
     @CommandHandler
     public void handle(JoinRoomCommand command) {
         if (!participants.contains(command.getParticipant())) {
-            apply(new ParticipantJoinedRoomEvent(command.getParticipant(), roomId));
+            apply(new ParticipantJoinedRoomEvent(roomId, command.getParticipant()));
         }
     }
 
     @CommandHandler
     public void handle(LeaveRoomCommand command) {
         if (participants.contains(command.getParticipant())) {
-            apply(new ParticipantLeftRoomEvent(command.getParticipant(), roomId));
+            apply(new ParticipantLeftRoomEvent(roomId, command.getParticipant()));
         }
     }
 
@@ -45,7 +45,7 @@ public class ChatRoom {
     public void handle(PostMessageCommand command) {
         Assert.state(participants.contains(command.getParticipant()),
                      "You cannot post messages unless you've joined the chat room");
-        apply(new MessagePostedEvent(command.getParticipant(), roomId, command.getMessage()));
+        apply(new MessagePostedEvent(roomId, command.getParticipant(), command.getMessage()));
     }
 
     @EventSourcingHandler

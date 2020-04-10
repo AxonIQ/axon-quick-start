@@ -1,0 +1,21 @@
+### Retrieve all rooms present
+
+GET localhost:8080/rooms
+Accept: application/json
+
+### Retrieve all participants from the static-ID ChatRoom
+
+GET localhost:8080/rooms/309378bc-c393-4820-98b6-b45cc68dc8be/participants
+Accept: application/json
+
+### Retrieve all messages from the static-ID ChatRoom
+
+GET localhost:8080/rooms/309378bc-c393-4820-98b6-b45cc68dc8be/messages
+Accept: application/json
+
+### Subscribe to all messages from the static-ID ChatRoom
+
+GET localhost:8080/rooms/309378bc-c393-4820-98b6-b45cc68dc8be/messages/subscribe
+Accept: text/event-stream
+
+###

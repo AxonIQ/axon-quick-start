@@ -1,0 +1,108 @@
+### Room Creation ###
+### Create Chat Room with random UUID from CommandController
+
+POST localhost:8080/rooms
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Axon Chat Room - Random UUID"
+}
+
+### Create Chat Room with static UUID
+
+POST localhost:8080/rooms
+Accept: application/json
+Content-Type: application/json
+
+{
+  "roomId": "309378bc-c393-4820-98b6-b45cc68dc8be",
+  "name": "Axon Chat Room - Static UUID"
+}
+
+### Joining the ChatRoom ###
+### "Steven" is joining the static ChatRoom
+
+POST localhost:8080/rooms/309378bc-c393-4820-98b6-b45cc68dc8be/participants
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Steven"
+}
+
+### "Milan" is joining the static ChatRoom
+
+POST localhost:8080/rooms/309378bc-c393-4820-98b6-b45cc68dc8be/participants
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Milan"
+}
+
+### "Yvonne" is joining the static ChatRoom
+
+POST localhost:8080/rooms/309378bc-c393-4820-98b6-b45cc68dc8be/participants
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Yvonne"
+}
+
+### "Allard" is joining the static ChatRoom
+
+POST localhost:8080/rooms/309378bc-c393-4820-98b6-b45cc68dc8be/participants
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Allard"
+}
+
+### Posting Messages ###
+### "Steven" posts a message in the static ChatRoom
+
+POST localhost:8080/rooms/309378bc-c393-4820-98b6-b45cc68dc8be/messages
+Accept: application/json
+Content-Type: application/json
+
+{
+  "participant": "Steven",
+  "message": "I am happy to be your trainer!"
+}
+
+### "Milan" posts a message in the static ChatRoom
+
+POST localhost:8080/rooms/309378bc-c393-4820-98b6-b45cc68dc8be/messages
+Accept: application/json
+Content-Type: application/json
+
+{
+  "participant": "Milan",
+  "message": "I am happy to be your trainer!"
+}
+
+### Leaving the ChatRoom ###
+### "Allard" leaves to the static ChatRoom
+
+DELETE localhost:8080/rooms/309378bc-c393-4820-98b6-b45cc68dc8be/participants
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Allard"
+}
+
+### "Steven" leaves to the static ChatRoom
+
+DELETE localhost:8080/rooms/309378bc-c393-4820-98b6-b45cc68dc8be/participants
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Steven"
+}
+
+###

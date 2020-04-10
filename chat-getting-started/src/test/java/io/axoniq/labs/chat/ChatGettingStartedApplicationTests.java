@@ -1,16 +1,17 @@
 package io.axoniq.labs.chat;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(SpringRunner.class)
+
 @SpringBootTest
-public class ChatGettingStartedApplicationTests {
+@ExtendWith(SpringExtension.class)
+class ChatGettingStartedApplicationTests {
 
-	@Test
-	public void contextLoads() {
-	}
-
+    @Test
+    void contextLoads() {
+    }
 }
+

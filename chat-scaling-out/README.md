@@ -30,7 +30,7 @@ The application's logic is divided among a number of packages.
 - `io.axoniq.labs.chat`  
   The main package. Contains the Application class with the configuration.
 - `io.axoniq.labs.chat.commandmodel`  
-  Contains the Command Model. In our case, just the `Room` Aggregate that has been provided to make the project 
+  Contains the Command Model. In our case, just the `ChatRoom` Aggregate that has been provided to make the project 
   compile.
 - `io.axoniq.labs.chat.coreapi`  
   The so called *core api*. This is where we put the Commands, Events and Queries. 
@@ -40,7 +40,7 @@ The application's logic is divided among a number of packages.
 - `io.axoniq.labs.chat.query.rooms.messages`  
   Contains the Projections (also called View Model or Query Model) for the Messages that have been broadcast in a 
   specific room. This package contains both the Event Handlers for updating the Projections, 
-  as well as the Query Handlers to read these data.
+  as well as the Query Handlers to read the data.
 - `io.axoniq.labs.chat.query.rooms.participants`  
   Contains the Projection to serve the list of participants in a given Chat Room. 
 - `io.axoniq.labs.chat.query.rooms.summary`  
@@ -54,9 +54,13 @@ The application has 'Swagger' enabled. You can use Swagger to send requests.
 
 Visit: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
-<b>Note</b>: The Swagger UI does not support the 'Subscription Query' further on in the assignment, as Swagger does not support
-streaming results. Issuing a regular `curl` operation, or something along those lines, is recommended to check the 
-Subscription Query.
+<b>Note</b>: The Swagger UI does not support the 'Subscription Query' further on in the assignment,
+ as Swagger does not support streaming results. 
+Issuing a regular `curl` operation, or something along those lines, is recommended to check the Subscription Query.
+
+<b>Note 2</b>: If you are on Intellij IDEA, you can also use the `command-request.http`
+ and `query-request.http` files in this project to send requests directly from your IDE.
+Several defaults have been provided, but feel free to play around here!
 
 ### H2 Console ###
 The application has the H2 Console configured, so you can peek into the database's contents.
@@ -78,7 +82,8 @@ Preparation
 -----------
 
 Axon Framework works best with AxonServer, and in this sample project we assume that you are using it. 
-AxonServer needs to be downloaded separately. You can run AxonServer as a docker container by running 
+AxonServer needs to be downloaded separately. 
+You can run AxonServer as a docker container by running 
 ```shell script
 docker run -d -p 8024:8024 -p 8124:8124 -p 8224:8224 --name axonserver axoniq/axonserver
 ```

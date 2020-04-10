@@ -49,7 +49,9 @@ public class QueryController {
     public Flux<ChatMessage> subscribeRoomMessages(@PathVariable String roomId) {
         RoomMessagesQuery query = new RoomMessagesQuery(roomId);
         SubscriptionQueryResult<List<ChatMessage>, ChatMessage> result;
-        result = gateway.subscriptionQuery(query, multipleInstancesOf(ChatMessage.class), instanceOf(ChatMessage.class));
+        result = gateway.subscriptionQuery(query,
+                                           multipleInstancesOf(ChatMessage.class),
+                                           instanceOf(ChatMessage.class));
         /* If you only want to send new messages to the client, you could simply do:
                 return result.updates();
            However, in our implementation we want to provide both existing messages and new ones,
@@ -57,5 +59,4 @@ public class QueryController {
         Flux<ChatMessage> initialResult = result.initialResult().flatMapMany(Flux::fromIterable);
         return Flux.concat(initialResult, result.updates());
     }
-
 }

@@ -27,7 +27,7 @@ The application's logic is divided among a number of packages.
 - `io.axoniq.labs.chat`  
   The main package. Contains the Application class with the configuration.
 - `io.axoniq.labs.chat.commandmodel`  
-  Contains the Command Model. In our case, just the `Room` Aggregate that has been provided to make the project 
+  Contains the Command Model. In our case, just the `ChatRoom` Aggregate that has been provided to make the project 
   compile.
 - `io.axoniq.labs.chat.coreapi`  
   The so called *core api*. This is where we put the Commands, Events and Queries. 
@@ -37,7 +37,7 @@ The application's logic is divided among a number of packages.
 - `io.axoniq.labs.chat.query.rooms.messages`  
   Contains the Projections (also called View Model or Query Model) for the Messages that have been broadcast in a 
   specific room. This package contains both the Event Handlers for updating the Projections, 
-  as well as the Query Handlers to read these data.
+  as well as the Query Handlers to read the data.
 - `io.axoniq.labs.chat.query.rooms.participants`  
   Contains the Projection to serve the list of participants in a given Chat Room. 
 - `io.axoniq.labs.chat.query.rooms.summary`  
@@ -51,23 +51,30 @@ The application has 'Swagger' enabled. You can use Swagger to send requests.
 
 Visit: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
-<b>Note</b>: The Swagger UI does not support the 'Subscription Query' further on in the assignment, as Swagger does not support
-streaming results. Issuing a regular `curl` operation, or something along those lines, is recommended to check the 
-Subscription Query.
+<b>Note</b>: The Swagger UI does not support the 'Subscription Query' further on in the assignment,
+ as Swagger does not support streaming results. 
+Issuing a regular `curl` operation, or something along those lines, is recommended to check the Subscription Query.
+
+<b>Note 2</b>: If you are on Intellij IDEA, you can also use the `command-request.http`
+ and `query-request.http` files in this project to send requests directly from your IDE.
+Several defaults have been provided, but feel free to play around here!
 
 ### H2 Console ###
 The application has the 'H2 Console' configured, so you can peek into the database's contents.
 
 Visit: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)  
-Enter JDBC URL: jdbc:h2:mem:testdb  
+Enter JDBC URL: `jdbc:h2:mem:testdb`  
 Leave other values to defaults and click 'connect'.
-
 
 Preparation
 -----------
 
 Axon Framework works best with AxonServer, and in this sample project we assume that you are using it. 
 AxonServer needs to be downloaded separately.
+You can run AxonServer as a docker container by running:
+```shell script
+docker run -d -p 8024:8024 -p 8124:8124 -p 8224:8224 --name axonserver axoniq/axonserver
+```
 
 Our goal
 --------
@@ -87,8 +94,9 @@ This aggregate processes Commands and produces Events as a result.
 The expected behavior has been described in the `ChatRoomTest` class, using the Axon Test Fixtures.
 
 To make these tests pass, you will need to implement the following command handlers:
-1. The handler for the `CreateRoomCommand` creates a new instance of a `ChatRoom`. Therefore, this command handler
-   is a constructor, instead of a regular method. The method should `apply` (static method on `AggregateLifecycle`) a `RoomCreatedEvent`. 
+1. The handler for the `CreateRoomCommand` creates a new instance of a `ChatRoom`. 
+   Therefore, this command handler is a constructor, instead of a regular method. 
+   The method should `apply` (static method on `AggregateLifecycle`) a `RoomCreatedEvent`. 
    
    Axon requires a no-arg constructor, we will also need to create one.
 
@@ -104,7 +112,8 @@ To make these tests pass, you will need to implement the following command handl
 4. Finally, implement the handler for the `PostMessageCommand`. A participant may only post messages to rooms he/she
    has joined. Otherwise, an exception is thrown.
    
-Now, there is only one thing to do:
+    Now, there is only one thing left to do:
+
 5. We need to tell Axon that we want to configure this class as an Aggregate. Annotate it with `@Aggregate` to have the
    Axon Spring Boot Auto-Configuration module configure the necessary components to work with this aggregate.
    
@@ -129,14 +138,17 @@ we've decided to use that one.
     Note that this API Endpoint returns a `Future<String>` (as opposed to `Future<Void>`). Axon returns the identifier of an Aggregate as a 
     result of a Command creating a new Aggregate instance. 
    
-That's it! Once you're done, you should be able to start the application and send messages. Note that the queries are
-not implemented yet. That's fixed in the next step.
+That's it! Once you're done, you should be able to start the application and send messages.
+Remember that [Swagger](http://localhost:8080/swagger-ui.html) is in place to help with this.
+Additionally, if you are on Intellij IDEA you can use the `command-request.http` file to execute some REST operations too.
+
+Note that the queries are not implemented yet. That's fixed in the next step.
 
 ### Implement the Projections ###
 
 Now that the application is able to change state, it would be nice to expose that state. This is done in projections.
 
-We need to implement 3 projections for this application:
+We need to implement three projections for this application:
   
   1. The `ChatMessageProjection` exposes the list of messages for a given chat room. Implement an `@EventHandler`
      for the `MessagePostedEvent`. 
@@ -162,7 +174,6 @@ We need to implement 3 projections for this application:
      a 'Subscription Query' we will need to use the `QueryUpdateEmitter`  in the `@EventHandler` to send an update for 
      each new chat message.
 
-
 ### Connect the REST API to the Query Bus ###
 
 We've got a component that can handle queries now. Now, it's time to allow external components to trigger these 
@@ -178,6 +189,7 @@ we've decided to use that one.
     to be notified about new messages sent into the room. 
 
 When you think you're done, give the application a spin and see what happens...
-
+Remember, you can use [Swagger](http://localhost:8080/swagger-ui.html)
+ or the `query-request.http` (if you use Intellij IDEA) to test the new endpoints. 
 
 # Done! Hurrah! #
