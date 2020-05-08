@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 public class Servers {
 
     public static void main(String[] args) throws Exception {
-        Server server = Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
+        Server server = Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092", "-ifNotExists");
         server.start();
         System.out.println("Database running on port 9092");
 
