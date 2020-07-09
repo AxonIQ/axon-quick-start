@@ -100,22 +100,29 @@ To make these tests pass, you will need to implement the following command handl
    
    Axon requires a no-arg constructor, we will also need to create one.
 
-   Axon requires one field to be present: the aggregate's identifier. Create a field called roomId of type String, and 
-   annotate it with `@AggregateIdentifier`. We will also need to set this field to the correct value. As we are using 
-   event sourcing, we must do so in an `@EventSourcingHandler`. Create one that reacts to the `RoomCreatedEvent` and
-   sets the `roomId` to the correct value.  
-2. The handler for the `JoinRoomCommand` should apply a `ParticipantJoinedRoomEvent`, but only if the joining participant hasn't 
-   already joined this room. Otherwise, nothing happens. To do this, we will need to maintain some state. We do this in
-   `@EventSourcingHandler`, remember? Create the required handlers.
-3. The handler for the `LeaveRoomCommand` should apply a `ParticipantLeftRoomEvent`, but only if the leaving participant has 
-   joined the room. Otherwise, again, nothing happens. Don't forget to update state in the right location.
-4. Finally, implement the handler for the `PostMessageCommand`. A participant may only post messages to rooms he/she
-   has joined. Otherwise, an exception is thrown.
+   Axon requires one field to be present: the aggregate's identifier. 
+   Create a field called roomId of type String, and annotate it with `@AggregateIdentifier`.
+    
+   We will also need to set this field to the correct value. 
+   As we are using event sourcing, we must do so in an `@EventSourcingHandler`. 
+   Create one that reacts to the `RoomCreatedEvent` and sets the `roomId` to the correct value.  
+2. The handler for the `JoinRoomCommand` should apply a `ParticipantJoinedRoomEvent`,
+    but only if the joining participant hasn't already joined this room. 
+   Otherwise, nothing happens. To do this, we will need to maintain some state. 
+   We do this in `@EventSourcingHandler`, remember? Create the required handlers.
+3. The handler for the `LeaveRoomCommand` should apply a `ParticipantLeftRoomEvent`,
+    but only if the leaving participant has joined the room. 
+   Otherwise, again, nothing happens. 
+   Don't forget to update state in the right location.
+4. Finally, implement the handler for the `PostMessageCommand`. 
+   A participant may only post messages to rooms he/she has joined. 
+   Otherwise, an exception is thrown.
    
     Now, there is only one thing left to do:
 
-5. We need to tell Axon that we want to configure this class as an Aggregate. Annotate it with `@Aggregate` to have the
-   Axon Spring Boot Auto-Configuration module configure the necessary components to work with this aggregate.
+5. We need to tell Axon that we want to configure this class as an Aggregate. 
+   Annotate it with `@Aggregate` to have the Axon Spring Boot Auto-Configuration module configure
+    the necessary components to work with this aggregate.
    
 That's it. All tests should pass now. If not, implement the missing behavior and try again...
  
@@ -124,19 +131,20 @@ That's it. All tests should pass now. If not, implement the missing behavior and
 We've got a component that can handle commands now. Now, it's time to allow external components to trigger these 
 commands. The `CommandController` class defines some API endpoints that should trigger commands to be sent.
 
-In Axon, we can use either the Command Bus or the CommandGateway to send commands. The latter has a friendlier API, so 
-we've decided to use that one.
+In Axon, we can use either the Command Bus or the CommandGateway to send commands. 
+The latter has a friendlier API, so we've decided to use that one.
 
- 1. Implement the TODOs in the `CommandController` class to forward Commands to the Command Bus. Note that the API 
-    Endpoint methods declare a return type of `Future<...>`. The `CommandGateway.send()` method also returns a Future. This 
-    is a nice way to prepare the API layer for asynchronous execution of commands (perhaps later).
+ 1. Implement the TODOs in the `CommandController` class to forward Commands to the Command Bus. 
+    Note that the API Endpoint methods declare a return type of `Future<...>`. 
+    The `CommandGateway.send()` method also returns a Future. 
+    This is a nice way to prepare the API layer for asynchronous execution of commands (perhaps later).
 
- 2. The `CreateChatRoom` API declares an ID as part of the HTTP Entity it expects. Although we generally favor 
-    client-generated identifiers, Javascript is notoriously bad at generating random values. Therefore, we would want the 
-    `roomId` to default to a proper randomly generated UUID (use `UUID.randomUUID().toString()`). 
+ 2. The `CreateChatRoom` API declares an ID as part of the HTTP Entity it expects. 
+    Although we generally favor client-generated identifiers, Javascript is notoriously bad at generating random values. 
+    Therefore, we would want the `roomId` to default to a proper randomly generated UUID (use `UUID.randomUUID().toString()`). 
    
-    Note that this API Endpoint returns a `Future<String>` (as opposed to `Future<Void>`). Axon returns the identifier of an Aggregate as a 
-    result of a Command creating a new Aggregate instance. 
+    Note that this API Endpoint returns a `Future<String>` (as opposed to `Future<Void>`). 
+    Axon returns the identifier of an Aggregate as a result of a Command creating a new Aggregate instance. 
    
 That's it! Once you're done, you should be able to start the application and send messages.
 Remember that [Swagger](http://localhost:8080/swagger-ui.html) is in place to help with this.
@@ -146,12 +154,13 @@ Note that the queries are not implemented yet. That's fixed in the next step.
 
 ### Implement the Projections ###
 
-Now that the application is able to change state, it would be nice to expose that state. This is done in projections.
+Now that the application is able to change state, it would be nice to expose that state. 
+This is done in projections.
 
 We need to implement three projections for this application:
   
-  1. The `ChatMessageProjection` exposes the list of messages for a given chat room. Implement an `@EventHandler`
-     for the `MessagePostedEvent`. 
+  1. The `ChatMessageProjection` exposes the list of messages for a given chat room. 
+     Implement an `@EventHandler` for the `MessagePostedEvent`. 
      
      Note that the `ChatMessage` Entity expects a timestamp. Axon attaches information to Events, which you can
      access in the Event Handlers. Add an extra parameter: `@Timestamp Instant timestamp`. Axon will automatically 
