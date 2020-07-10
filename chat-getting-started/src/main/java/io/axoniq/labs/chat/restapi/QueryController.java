@@ -15,10 +15,10 @@ import java.util.concurrent.Future;
 @RestController
 public class QueryController {
 
-    private final QueryGateway gateway;
+    private final QueryGateway queryGateway;
 
-    public QueryController(QueryGateway gateway) {
-        this.gateway = gateway;
+    public QueryController(QueryGateway queryGateway) {
+        this.queryGateway = queryGateway;
     }
 
     @GetMapping("rooms")
