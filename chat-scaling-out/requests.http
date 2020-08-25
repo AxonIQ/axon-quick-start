@@ -2,7 +2,7 @@ POST http://localhost:8080/rooms
 Content-Type: application/json
 
 {
-  "roomId": "56f85087-64fa-456f-bc2c-d009e6462f35",
+  "roomId": "7ccb3f00-2775-4f21-9ed9-e52e2e36a982",
   "name": "room1"
 }
 
@@ -10,7 +10,7 @@ Content-Type: application/json
 
 GET http://localhost:8080/rooms
 
-###
+###ClientsByEventProcessor
 
 POST http://localhost:8080/rooms/56f85087-64fa-456f-bc2c-d009e6462f35/participants
 Content-Type: application/json
@@ -21,7 +21,7 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8080/rooms/56f85087-64fa-456f-bc2c-d009e6462f35/participants
+GET http://localhost:62038/rooms/56f85087-64fa-456f-bc2c-d009e6462f35/participants
 
 ###
 
@@ -61,5 +61,33 @@ Content-Type: application/json
 ###
 
 GET http://localhost:9090/rooms/56f85087-64fa-456f-bc2c-d009e6462f35/messages
+
+###
+
+
+POST http://localhost:8024/actuator/loggers/io.axoniq.axonserver
+Content-Type: application/json
+
+{
+  "configuredLevel": "DEBUG"
+}
+
+###
+
+POST http://localhost:8024/actuator/loggers/io.axoniq.axonhub.grpc.QueryService
+Content-Type: application/json
+
+{
+  "configuredLevel": "TRACE"
+}
+
+###
+
+POST http://localhost:8024/actuator/loggers/io.axoniq.axonserver.cluster.RaftNode
+Content-Type: application/json
+
+{
+  "configuredLevel": "TRACE"
+}
 
 ###
