@@ -31,7 +31,7 @@
         <java.version>1.8</java.version>
         <kotlin.version>1.3.70</kotlin.version>
 
-        <axon.version>4.3-SNAPSHOT</axon.version>
+        <axon.version>4.4.2</axon.version>
 
         <projectreactor.version>3.3.4.RELEASE</projectreactor.version>
         <swagger.version>2.9.2</swagger.version>
