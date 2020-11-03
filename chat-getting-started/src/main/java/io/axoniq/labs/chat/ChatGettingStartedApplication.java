@@ -26,7 +26,7 @@ public class ChatGettingStartedApplication {
         public Docket api() {
             return new Docket(DocumentationType.SWAGGER_2)
                     .select()
-                    .apis(Predicates.not(RequestHandlerSelectors.basePackage("org.springframework")))
+                    .apis(RequestHandlerSelectors.basePackage("io.axoniq.labs.chat"))
                     .paths(PathSelectors.any())
                     .build();
         }
