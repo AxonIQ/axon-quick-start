@@ -33,7 +33,7 @@
 
         <axon.version>4.4.5</axon.version>
 
-        <projectreactor.version>3.4.0</projectreactor.version>
+        <projectreactor.version>3.4.1</projectreactor.version>
         <swagger.version>3.0.0</swagger.version>
     </properties>
 
