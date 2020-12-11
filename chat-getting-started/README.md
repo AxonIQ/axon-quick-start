@@ -49,7 +49,7 @@ The application's logic is divided among a number of packages.
 ### Swagger UI ###
 The application has 'Swagger' enabled. You can use Swagger to send requests.
 
-Visit: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+Visit: [http://localhost:8080/swagger-ui/](http://localhost:8080/swagger-ui/)
 
 <b>Note</b>: The Swagger UI does not support the 'Subscription Query' further on in the assignment,
  as Swagger does not support streaming results. 
@@ -147,7 +147,7 @@ The latter has a friendlier API, so we've decided to use that one.
     Axon returns the identifier of an Aggregate as a result of a Command creating a new Aggregate instance. 
    
 That's it! Once you're done, you should be able to start the application and send messages.
-Remember that [Swagger](http://localhost:8080/swagger-ui.html) is in place to help with this.
+Remember that [Swagger](http://localhost:8080/swagger-ui/) is in place to help with this.
 Additionally, if you are on Intellij IDEA you can use the `command-request.http` file to execute some REST operations too.
 
 Note that the queries are not implemented yet. That's fixed in the next step.
@@ -198,7 +198,7 @@ we've decided to use that one.
     to be notified about new messages sent into the room. 
 
 When you think you're done, give the application a spin and see what happens...
-Remember, you can use [Swagger](http://localhost:8080/swagger-ui.html)
+Remember, you can use [Swagger](http://localhost:8080/swagger-ui/)
  or the `query-request.http` (if you use Intellij IDEA) to test the new endpoints. 
 
 # Done! Hurrah! #
