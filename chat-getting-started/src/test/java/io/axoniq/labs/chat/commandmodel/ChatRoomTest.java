@@ -35,6 +35,15 @@ class ChatRoomTest {
     }
 
     @Test
+    void testLeaveChatRoom() {
+        testFixture.given(new RoomCreatedEvent("roomId", "test-room"),
+                        new ParticipantJoinedRoomEvent("roomId", "participant"))
+                .when(new LeaveRoomCommand("roomId", "participant"))
+                .expectSuccessfulHandlerExecution()
+                .expectEvents(new ParticipantLeftRoomEvent("roomId", "participant"));
+    }
+
+    @Test
     void testPostMessage() {
         testFixture.given(new RoomCreatedEvent("roomId", "test-room"),
                           new ParticipantJoinedRoomEvent("roomId", "participant"))
