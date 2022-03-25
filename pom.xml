@@ -34,7 +34,7 @@
         <axon.version>4.5.8</axon.version>
 
         <projectreactor.version>3.4.13</projectreactor.version>
-        <swagger.version>3.0.0</swagger.version>
+        <springdoc.version>1.6.6</springdoc.version>
     </properties>
 
     <dependencies>
@@ -48,14 +48,9 @@
             <version>${kotlin.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>${swagger.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${swagger.version}</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
     </dependencies>
 
