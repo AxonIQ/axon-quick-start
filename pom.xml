@@ -33,7 +33,7 @@
 
         <axon.version>4.5.9</axon.version>
 
-        <projectreactor.version>3.4.17</projectreactor.version>
+        <projectreactor.version>3.4.18</projectreactor.version>
         <springdoc.version>1.6.8</springdoc.version>
     </properties>
 
