@@ -31,7 +31,7 @@
         <java.version>1.8</java.version>
         <kotlin.version>1.7.20</kotlin.version>
 
-        <axon.version>4.6.0</axon.version>
+        <axon.version>4.6.1</axon.version>
 
         <projectreactor.version>3.4.23</projectreactor.version>
         <springdoc.version>1.6.11</springdoc.version>
